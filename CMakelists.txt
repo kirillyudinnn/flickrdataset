@@ -1,0 +1,17 @@
+cmake_minimum_required(VERSION 3.21)
+
+project(FlickrDataset)
+
+set(CMAKE_CXX_STANDARD 17)
+
+add_executable(FlickrDataset main.cpp FlickrAPI.h FlickrAPI.cpp)
+
+find_package(CURL CONFIG REQUIRED)
+target_link_libraries(FlickrDataset PRIVATE CURL::libcurl)
+
+find_package(nlohmann_json CONFIG REQUIRED)
+target_link_libraries(FlickrDataset PRIVATE nlohmann_json::nlohmann_json)
+
+
+install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/config.ini DESTINATION ${PROJECT_BINARY_DIR}/Release)
+

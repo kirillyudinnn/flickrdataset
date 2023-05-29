@@ -1,0 +1,325 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ru">
+<head>
+<meta http-equiv="Content-Type" content="text/xhtml;charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=11"/>
+<meta name="generator" content="Doxygen 1.9.6"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>FlickrDataset: Класс FlickrAPI</title>
+<link href="tabs.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="dynsections.js"></script>
+<link href="search/search.css" rel="stylesheet" type="text/css"/>
+<script type="text/javascript" src="search/searchdata.js"></script>
+<script type="text/javascript" src="search/search.js"></script>
+<link href="doxygen.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+<div id="top"><!-- do not remove this div, it is closed by doxygen! -->
+<div id="titlearea">
+<table cellspacing="0" cellpadding="0">
+ <tbody>
+ <tr id="projectrow">
+  <td id="projectalign">
+   <div id="projectname">FlickrDataset
+   </div>
+  </td>
+ </tr>
+ </tbody>
+</table>
+</div>
+<!-- end header part -->
+<!-- Создано системой Doxygen 1.9.6 -->
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+var searchBox = new SearchBox("searchBox", "search/",'.html');
+/* @license-end */
+</script>
+<script type="text/javascript" src="menudata.js"></script>
+<script type="text/javascript" src="menu.js"></script>
+<script type="text/javascript">
+/* @license magnet:?xt=urn:btih:d3d9a9a6595521f9666a5e94cc830dab83b65699&amp;dn=expat.txt MIT */
+$(function() {
+  initMenu('',true,false,'search.php','Поиск');
+  $(document).ready(function() { init_search(); });
+});
+/* @license-end */
+</script>
+<div id="main-nav"></div>
+<!-- window showing the filter options -->
+<div id="MSearchSelectWindow"
+     onmouseover="return searchBox.OnSearchSelectShow()"
+     onmouseout="return searchBox.OnSearchSelectHide()"
+     onkeydown="return searchBox.OnSearchSelectKey(event)">
+</div>
+
+<!-- iframe showing the search results (closed by default) -->
+<div id="MSearchResultsWindow">
+<div id="MSearchResults">
+<div class="SRPage">
+<div id="SRIndex">
+<div id="SRResults"></div>
+<div class="SRStatus" id="Loading">Загрузка...</div>
+<div class="SRStatus" id="Searching">Поиск...</div>
+<div class="SRStatus" id="NoMatches">Не найдено</div>
+</div>
+</div>
+</div>
+</div>
+
+</div><!-- top -->
+<div class="header">
+  <div class="summary">
+<a href="#pub-methods">Открытые члены</a> &#124;
+<a href="#pub-static-methods">Открытые статические члены</a> &#124;
+<a href="class_flickr_a_p_i-members.html">Полный список членов класса</a>  </div>
+  <div class="headertitle"><div class="title">Класс FlickrAPI</div></div>
+</div><!--header-->
+<div class="contents">
+
+<p>Основной класс для работы с flickr.com.  
+ <a href="class_flickr_a_p_i.html#details">Подробнее...</a></p>
+
+<p><code>#include &lt;<a class="el" href="_flickr_a_p_i_8h_source.html">FlickrAPI.h</a>&gt;</code></p>
+<table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
+Открытые члены</h2></td></tr>
+<tr class="memitem:aad9d724d20736b8ab74f6c9557f2055b"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_flickr_a_p_i.html#aad9d724d20736b8ab74f6c9557f2055b">FlickrAPI</a> (std::string API_KEY, std::string API_MAIN, std::string dir_path, std::string request, std::string tags, int count)</td></tr>
+<tr class="memdesc:aad9d724d20736b8ab74f6c9557f2055b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Конструктор класса  <br /></td></tr>
+<tr class="separator:aad9d724d20736b8ab74f6c9557f2055b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a214ceeae19e6db382d70cd24e1591002"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_flickr_a_p_i.html#a214ceeae19e6db382d70cd24e1591002">getRequest</a> (int n)</td></tr>
+<tr class="memdesc:a214ceeae19e6db382d70cd24e1591002"><td class="mdescLeft">&#160;</td><td class="mdescRight">Функция для формирования URL запрос  <br /></td></tr>
+<tr class="separator:a214ceeae19e6db382d70cd24e1591002"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e7a5ff53311468079de99f909960f84"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_flickr_a_p_i.html#a5e7a5ff53311468079de99f909960f84">getJsonRequest</a> (int k)</td></tr>
+<tr class="memdesc:a5e7a5ff53311468079de99f909960f84"><td class="mdescLeft">&#160;</td><td class="mdescRight">Создает GET-запрос к flickr.com.  <br /></td></tr>
+<tr class="separator:a5e7a5ff53311468079de99f909960f84"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aba100080bc416e2184d80521102455b6"><td class="memItemLeft" align="right" valign="top">std::string&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_flickr_a_p_i.html#aba100080bc416e2184d80521102455b6">getPhotoURL</a> (std::vector&lt; std::string &gt; &amp;fields)</td></tr>
+<tr class="memdesc:aba100080bc416e2184d80521102455b6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Формирует адрес для запроса  <br /></td></tr>
+<tr class="separator:aba100080bc416e2184d80521102455b6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a52d3e9926de185a6d41bcb25769921da"><td class="memItemLeft" align="right" valign="top"><a id="a52d3e9926de185a6d41bcb25769921da" name="a52d3e9926de185a6d41bcb25769921da"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>photos_search</b> ()</td></tr>
+<tr class="memdesc:a52d3e9926de185a6d41bcb25769921da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Основный метод, который скачивает изображения <br /></td></tr>
+<tr class="separator:a52d3e9926de185a6d41bcb25769921da"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
+Открытые статические члены</h2></td></tr>
+<tr class="memitem:a0a9e905587111411f5b3d6fb8e38f985"><td class="memItemLeft" align="right" valign="top">static size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_flickr_a_p_i.html#a0a9e905587111411f5b3d6fb8e38f985">responseToString</a> (void *data, size_t size, size_t nmemb, void *clientp)</td></tr>
+<tr class="memdesc:a0a9e905587111411f5b3d6fb8e38f985"><td class="mdescLeft">&#160;</td><td class="mdescRight">Функция для приведения ответа в виде потока байтов к типу String.  <br /></td></tr>
+<tr class="separator:a0a9e905587111411f5b3d6fb8e38f985"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table>
+<a name="details" id="details"></a><h2 class="groupheader">Подробное описание</h2>
+<div class="textblock"><p>Основной класс для работы с flickr.com. </p>
+</div><h2 class="groupheader">Конструктор(ы)</h2>
+<a id="aad9d724d20736b8ab74f6c9557f2055b" name="aad9d724d20736b8ab74f6c9557f2055b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aad9d724d20736b8ab74f6c9557f2055b">&#9670;&#160;</a></span>FlickrAPI()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">FlickrAPI::FlickrAPI </td>
+          <td>(</td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>API_KEY</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>API_MAIN</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>dir_path</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>request</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::string&#160;</td>
+          <td class="paramname"><em>tags</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>count</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Конструктор класса </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">API_KEY</td><td>Уникальный ключ пользователя API </td></tr>
+    <tr><td class="paramname">API_MAIN</td><td>Адрес, по которому создается запрос </td></tr>
+    <tr><td class="paramname">dir_path</td><td>Путь к директории, где сохраняются изображения </td></tr>
+    <tr><td class="paramname">request</td><td>Запрос пользователя </td></tr>
+    <tr><td class="paramname">tags</td><td>Теги </td></tr>
+    <tr><td class="paramname">count</td><td>Кол-во изображений </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<h2 class="groupheader">Методы</h2>
+<a id="a5e7a5ff53311468079de99f909960f84" name="a5e7a5ff53311468079de99f909960f84"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5e7a5ff53311468079de99f909960f84">&#9670;&#160;</a></span>getJsonRequest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string FlickrAPI::getJsonRequest </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>k</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Создает GET-запрос к flickr.com. </p>
+<dl class="section return"><dt>Возвращает</dt><dd>Возвращает JSON ответ в виде строки </dd></dl>
+
+</div>
+</div>
+<a id="aba100080bc416e2184d80521102455b6" name="aba100080bc416e2184d80521102455b6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aba100080bc416e2184d80521102455b6">&#9670;&#160;</a></span>getPhotoURL()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string FlickrAPI::getPhotoURL </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; std::string &gt; &amp;&#160;</td>
+          <td class="paramname"><em>fields</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Формирует адрес для запроса </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">fields</td><td>Содержит в себе farm_id, server_id, id, secret </td></tr>
+  </table>
+  </dd>
+</dl>
+
+</div>
+</div>
+<a id="a214ceeae19e6db382d70cd24e1591002" name="a214ceeae19e6db382d70cd24e1591002"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a214ceeae19e6db382d70cd24e1591002">&#9670;&#160;</a></span>getRequest()</h2>
+
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">std::string FlickrAPI::getRequest </td>
+          <td>(</td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>n</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Функция для формирования URL запрос </p>
+<dl class="section return"><dt>Возвращает</dt><dd>Возвращает строку для отправки GET-запроса </dd></dl>
+
+</div>
+</div>
+<a id="a0a9e905587111411f5b3d6fb8e38f985" name="a0a9e905587111411f5b3d6fb8e38f985"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a0a9e905587111411f5b3d6fb8e38f985">&#9670;&#160;</a></span>responseToString()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">size_t FlickrAPI::responseToString </td>
+          <td>(</td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>data</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>size</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">size_t&#160;</td>
+          <td class="paramname"><em>nmemb</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">void *&#160;</td>
+          <td class="paramname"><em>clientp</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Функция для приведения ответа в виде потока байтов к типу String. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>Указатель на блок данных, который нужно сохранить </td></tr>
+    <tr><td class="paramname">size</td><td>Размер каждого элемента данных </td></tr>
+    <tr><td class="paramname">nmemb</td><td>Количество элементов данных </td></tr>
+    <tr><td class="paramname">clientp</td><td>Указатель на пользовательские данные</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>Возвращает общий размер данных, сохраненных в строку </dd></dl>
+
+</div>
+</div>
+<hr/>Объявления и описания членов классов находятся в файлах:<ul>
+<li>G:/210423/<a class="el" href="_flickr_a_p_i_8h_source.html">FlickrAPI.h</a></li>
+<li>G:/210423/FlickrAPI.cpp</li>
+</ul>
+</div><!-- contents -->
+<!-- start footer part -->
+<hr class="footer"/><address class="footer"><small>
+Создано системой&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.6
+</small></address>
+</body>
+</html>
