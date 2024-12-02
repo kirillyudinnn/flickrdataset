@@ -1,8 +1,8 @@
 #include "FlickrAPI.h"
 
-std::string FlickrAPI::getRequest(int k) {
+std::string FlickrAPI::getRequest(int n) {
 
-    return this->API_MAIN + this->API_KEY + this->req + this->tag + this->tag_mode + this->license + this->sort + this->content + this->per_page + this->page + std::to_string(k) + this->format + this->callback;
+    return this->API_MAIN + this->API_KEY + this->req + this->tag + this->tag_mode + this->license + this->sort + this->content + this->per_page + this->page + std::to_string(n) + this->format + this->callback;
 };
 
 size_t writeData(void* ptr, size_t size, size_t nmemb, FILE* stream) {
@@ -15,77 +15,62 @@ size_t FlickrAPI::responseToString(void* data, size_t size, size_t nmemb, void* 
     return size * nmemb;
 };
 
-void FlickrAPI::photos_search() {
-    const int max_json_length = 500; 
-    int n = 1; 
-    int k = this->count / max_json_length; 
-    int z = this->count % max_json_length; 	
-    for (int j = 0; j < k; j++) {
-        CURL* curl = curl_easy_init();
-        json json_response = json::parse(getJsonRequest(j+1));
-        json_response = json_response["photos"]["photo"];
 
-        for (int i = 0; i < json_response.size(); i++) {
-            int farm_id = json_response[i]["farm"];
-            std::string server_id = json_response[i]["server"];
-            std::string id = json_response[i]["id"];
-            std::string secret = json_response[i]["secret"];
-            std::vector<std::string> fields{ std::to_string(farm_id), server_id, id, secret };
-            std::string file_name = path + std::to_string(i + max_json_length*j) + ".jpg";
-            const char* name = file_name.c_str();
-            FILE* file = fopen(name, "wb");
+void FlickrAPI::processPhoto(int batch_index, int count, int max_json_length) {
+    CURL* curl = curl_easy_init();
+    json json_response = json::parse(
+        getJsonRequest(batch_index + 1)
+    );
+    json_response = json_response["photos"]["photo"];
 
-            CURLcode response;
+    for (int i = 0; i < count; i++) {
+        int farm_id = json_response[i]["farm"];
+        std::string server_id = json_response[i]["server"];
+        std::string id = json_response[i]["id"];
+        std::string secret = json_response[i]["secret"];
+        std::vector<std::string> fields{ std::to_string(farm_id), server_id, id, secret };
+        std::string file_name = path + std::to_string(i + max_json_length * batch_index) + ".jpg";
+        const char* name = file_name.c_str();
+        FILE* file = fopen(name, "wb");
 
-            curl_easy_setopt(curl, CURLOPT_URL, getPhotoURL(fields).c_str());
-            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeData);
-            curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
-            response = curl_easy_perform(curl);
+        CURLcode response;
+        curl_easy_setopt(curl, CURLOPT_URL, getPhotoURL(fields).c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeData);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
+        response = curl_easy_perform(curl);
 
-            fclose(file);
+        if (response != CURLE_OK) {
+          std::cerr << "CURL error: " << curl_easy_strerror(response) << std::endl;
         }
 
-        curl_easy_cleanup(curl);
-
+        fclose(file);
     }
 
-    if (z != 0) {
-        CURL* curl = curl_easy_init();
-        json json_response = json::parse(getJsonRequest(k + 1));
-        json_response = json_response["photos"]["photo"];
+    curl_easy_cleanup(curl);
+};
 
-        for (int i = 0; i < z; i++) {
-            int farm_id = json_response[i]["farm"];
-            std::string server_id = json_response[i]["server"];
-            std::string id = json_response[i]["id"];
-            std::string secret = json_response[i]["secret"];
-            std::vector<std::string> fields{ std::to_string(farm_id), server_id, id, secret };
-            std::string file_name = path + std::to_string(i + max_json_length * k) + ".jpg";
-            const char* name = file_name.c_str();
-            FILE* file = fopen(name, "wb");
 
-            CURLcode response;
+void FlickrAPI::uploadPhoto(int photo_count) {
+    const int max_json_length = 500;
+    int batch_count = photo_count / max_json_length;
+    int remaining_count = photo_count % max_json_length;
 
-            curl_easy_setopt(curl, CURLOPT_URL, getPhotoURL(fields).c_str());
-            curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, writeData);
-            curl_easy_setopt(curl, CURLOPT_WRITEDATA, file);
-            response = curl_easy_perform(curl);
+    for (int batch_index = 0; batch_index < batch_count; batch_index++) {
+      	processPhoto(batch_index, max_json_length, max_json_length);
+    }
 
-            fclose(file);
-        }
-
-        curl_easy_cleanup(curl);
-
+    if (remaining_count != 0) {
+        processPhoto(batch_count, remaining_count, max_json_length);
     }
 };
 
-std::string FlickrAPI::getJsonRequest(int k) {
+std::string FlickrAPI::getJsonRequest(int n) {
     CURL* curl;
     CURLcode response;
 
     std::string str_response;
     curl = curl_easy_init();
-    curl_easy_setopt(curl, CURLOPT_URL, getRequest(k).c_str());
+    curl_easy_setopt(curl, CURLOPT_URL, getRequest(n).c_str());
     curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, responseToString);
     curl_easy_setopt(curl, CURLOPT_WRITEDATA, &str_response);
     response = curl_easy_perform(curl);

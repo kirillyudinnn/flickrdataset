@@ -1,5 +1,8 @@
 #include "FlickrAPI.h"
 #include <string>
+#include <iostream>
+#include <vector>
+#include <sstream>
 #pragma warning(disable:4996)
 
 
@@ -17,6 +20,16 @@ std::string replaceSpaces(std::string str) {
 }
 
 
+std::vector<std::string> parse_command(const std::string& input) {
+    std::istringstream stream(input);
+    std::string token;
+    std::vector<std::string> tokens;
+    while (stream >> token) {
+        tokens.push_back(token);
+    }
+    return tokens;
+}
+
 
 std::string replaceCommas(std::string str) {
     std::string result = "";
@@ -30,7 +43,6 @@ std::string replaceCommas(std::string str) {
     }
     return result;
 }
-
 
 
 std::pair<std::string, std::string>parse_config() {
@@ -64,25 +76,35 @@ std::pair<std::string, std::string>parse_config() {
 }
 
 
-int main(int argc, char* argv[])
-{   
-    std::string path;
-    std::string request;
-    std::string tags;
-    int count = 1;
+int main(int argc, char* argv[]) {
+  	std::string input;
 
-    std::cout << "Enter your request\n";
-    getline(std::cin, request);
-    std::cout << "Enter tags (single words separated by commas)\n";
-    std::cin >> tags;
-    std::cout << "Enter the number of images\n";
-    std::cin >> count;
-    std::cout << "Enter the path to directory" << std::endl;
-    std::cin >> path;
-    
-    std::pair<std::string, std::string> api = parse_config();
+  	while (true) {
+          std::cout << "> ";
+          std::getline(std::cin, input);
+          auto tokens =  parse_command(input);
 
-    FlickrAPI obj = FlickrAPI(api.first,api.second, path, replaceSpaces(request), replaceCommas(tags), count);
-    obj.photos_search();
+          if (tokens.empty()) continue;
+
+          const std::string& command = tokens[0];
+          if (command == "upload-photo") {
+            std::string request = tokens[1];
+            std::string tags = tokens[2];
+            int photo_count = std::stoi(tokens[3]);
+            std::string path = tokens[4];
+            std::pair<std::string, std::string> api = parse_config();
+
+            FlickrAPI obj = FlickrAPI(api.first, api.second, path, replaceSpaces(request), replaceCommas(tags));
+            std::cout << "Start uploading photos..." << std::endl;
+            obj.uploadPhoto(photo_count);
+            std::cout << "Done!" << std::endl;
+          }
+
+          else if (command == "exit") {
+            break;
+          }
+    }
+
+	return 0;
 
 }

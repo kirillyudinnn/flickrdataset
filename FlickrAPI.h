@@ -12,7 +12,7 @@ using json = nlohmann::json;
 
 /*!
  * \class FlickrAPI
- * \brief Основной класс для работы с flickr.com
+ * \brief Основной класс для сбора изображений по запросу.
  */
  
 class FlickrAPI {
@@ -24,9 +24,8 @@ public:
 	 * \param dir_path Путь к директории, где сохраняются изображения
 	 * \param request Запрос пользователя
 	 * \param tags Теги
-	 * \param count Кол-во изображений
      */
-	FlickrAPI(std::string API_KEY,std::string API_MAIN,std::string dir_path, std::string request, std::string tags, int count) {
+	FlickrAPI(std::string API_KEY,std::string API_MAIN,std::string dir_path, std::string request, std::string tags) {
 		this->API_KEY = API_KEY;
 		this->API_MAIN = API_MAIN;
 		this->path = dir_path;
@@ -34,7 +33,6 @@ public:
 		this->tag += tags;
 		this->text = request;
 		this->req += request;
-		this->count = count;
 	}
 
 	/*!
@@ -50,26 +48,38 @@ public:
 
 	/*!
      * \brief  Функция для формирования URL запрос
+	 * \param n Номер батча (номер страницы в запросе)
      * \return Возвращает строку для отправки GET-запроса
      */
 	std::string getRequest(int n);
 
 	/*!
-     * \brief Создает GET-запрос к flickr.com
+     * \brief Отправляет GET-запрос к flickr.com
+	 * \param n Номер батча (номер страницы в запросе)
      * \return Возвращает JSON ответ в виде строки
      */
-	std::string getJsonRequest(int k);
+	std::string getJsonRequest(int n);
 
 	/*!
      * \brief Формирует адрес для запроса 
-     * \param fields Содержит в себе farm_id, server_id, id, secret
+     * \param fields Необходимые поля, полученные из JSON-ответа, для формирования URL фотогографии
      */
 	std::string getPhotoURL(std::vector<std::string>& fields);
 
 	/*!
-     * \brief Основный метод, который скачивает изображения
+     * \brief Метод для выгрузки изображений.
+	 * \param photo_count Количество изображений
      */
-	void photos_search();
+	void uploadPhoto(int photo_count);
+
+    /*!
+     * \brief Метод, внутри которого формируются и отправляются запросы для батча.
+	 * \param batch_index Номер батча
+	 * \param count Количество изображений на странице
+	 * \papram max_json_length Максимальное количество изображений в батче
+     */
+    void processPhoto(int batch_index, int count, int max_json_length);
+
 
 private:
 	std::string text{}; ///< Текст запроса
