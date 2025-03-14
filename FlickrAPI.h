@@ -7,8 +7,10 @@
 #include <curl/curl.h>
 #include "nlohmann/json.hpp"
 #include <fstream>
+#include <filesystem>
 
 using json = nlohmann::json;
+namespace fs = std::filesystem;
 
 /*!
  * \class FlickrAPI
@@ -20,19 +22,10 @@ public:
 	/*!
      * \brief Конструктор класса
 	 * \param API_KEY Уникальный ключ пользователя API 
-	 * \param API_MAIN Адрес, по которому создается запрос 
-	 * \param dir_path Путь к директории, где сохраняются изображения
-	 * \param request Запрос пользователя
-	 * \param tags Теги
      */
-	FlickrAPI(std::string API_KEY,std::string API_MAIN,std::string dir_path, std::string request, std::string tags) {
-		this->API_KEY = API_KEY;
-		this->API_MAIN = API_MAIN;
-		this->path = dir_path;
-		this->tags = tags;
-		this->tag += tags;
-		this->text = request;
-		this->req += request;
+	FlickrAPI(std::string API_KEY, fs::path save_path) {
+		this->API_KEY += API_KEY;
+		this->save_path = save_path
 	}
 
 	/*!
@@ -48,17 +41,17 @@ public:
 
 	/*!
      * \brief  Функция для формирования URL запрос
-	 * \param n Номер батча (номер страницы в запросе)
+	 * \param page_number Номер батча (номер страницы в запросе)
      * \return Возвращает строку для отправки GET-запроса
      */
-	std::string getRequest(int n);
+	std::string getRequest(int page_number);
 
 	/*!
      * \brief Отправляет GET-запрос к flickr.com
-	 * \param n Номер батча (номер страницы в запросе)
+	 * \param page_number Номер батча (номер страницы в запросе)
      * \return Возвращает JSON ответ в виде строки
      */
-	std::string getJsonRequest(int n);
+	std::string getJsonRequest(int page_number);
 
 	/*!
      * \brief Формирует адрес для запроса 
@@ -70,7 +63,7 @@ public:
      * \brief Метод для выгрузки изображений.
 	 * \param photo_count Количество изображений
      */
-	void uploadPhoto(int photo_count);
+	void uploadPhoto(std::string text, std::string tags, int photo_count);
 
     /*!
      * \brief Метод, внутри которого формируются и отправляются запросы для батча.
@@ -85,18 +78,19 @@ private:
 	std::string text{}; ///< Текст запроса
 	std::string path{}; ///< Путь к директории данных
 	std::string tags{}; ///< Теги
-	std::string API_KEY{}; ///< API ключ
-	std::string API_MAIN{}; ///< URL ресурса
+	std::string API_KEY = "&api_key="; ///< API ключ
 	std::string page = "&page="; ///< Строка для указания номера страницы
 	std::string per_page = "&per_page=500"; ///< Строка для указания кол-ва фото в ответе
 	std::string req = "&text="; ///< Строка для указания запроса 
 	std::string tag = "&tags="; ///< Строка для указаний тегов
+	fs::path save_path{};
 	int count = 1; ///< Кол-во изображений
 
+	const std::string API_MAIN = "https://www.flickr.com/services/rest/?method=flickr.photos.search"; ///< end-point
 	const std::string format = "&format=json"; ///< Строка для указания формата ответа
-	const std::string content = "&content_type=1"; ///< Строка для указания типа контента (фото+скрины)
+	const std::string content = "&content_type=1"; ///< Строка для указания типа контента (фотографии, изображения, скрины)
 	const std::string callback = "&nojsoncallback=1"; ///< Строка для указания callback
-	const std::string license = "&license=0,7,8,9,10"; ///< Строка для указания лицензии фотографий
+	const std::string license = "&license=0,7,8,9,10"; ///< Строка для указания лицензии изображений
 	const std::string farm = "https://farm"; ///< Строка для указания фермы
 	const std::string staticflickr = ".staticflickr.com/"; ///< Вспомогательная строка
 	const std::string jpg = ".jpg"; ///< Формат фотографий
