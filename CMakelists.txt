@@ -3,32 +3,30 @@ cmake_minimum_required(VERSION 3.21)
 project(FlickrDataset)
 
 set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 add_executable(FlickrDataset main.cpp FlickrAPI.h FlickrAPI.cpp)
 
+find_package(CURL REQUIRED)
+target_link_libraries(FlickrDataset PRIVATE CURL::libcurl)
+
+find_package(nlohmann_json REQUIRED)
+target_link_libraries(FlickrDataset PRIVATE nlohmann_json::nlohmann_json)
 
 find_package(Doxygen)
 if(DOXYGEN_FOUND)
-
     message(STATUS "Current source directory: ${CMAKE_CURRENT_SOURCE_DIR}")
 
     set(DOXYGEN_IN ${CMAKE_CURRENT_SOURCE_DIR}/Doxyfile)
     set(DOXYGEN_OUT ${CMAKE_CURRENT_BINARY_DIR}/Doxyfile)
     configure_file(${DOXYGEN_IN} ${DOXYGEN_OUT} @ONLY)
 
-    add_custom_target( doc_doxygen ALL
+    add_custom_target(doc_doxygen ALL
         COMMAND ${DOXYGEN_EXECUTABLE} ${DOXYGEN_OUT}
         WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
         COMMENT "Generating API documentation with Doxygen"
-        VERBATIM )
+        VERBATIM
+    )
 endif()
 
-find_package(CURL CONFIG REQUIRED)
-target_link_libraries(FlickrDataset PRIVATE CURL::libcurl)
-
-find_package(nlohmann_json CONFIG REQUIRED)
-target_link_libraries(FlickrDataset PRIVATE nlohmann_json::nlohmann_json)
-
-
 install(FILES ${CMAKE_CURRENT_SOURCE_DIR}/config.ini DESTINATION ${PROJECT_BINARY_DIR}/Release)
-

@@ -19,6 +19,18 @@ std::string replaceSpaces(std::string str) {
     return result;
 }
 
+
+std::vector<std::string> parse_command(const std::string& input) {
+    std::istringstream stream(input);
+    std::string token;
+    std::vector<std::string> tokens;
+    while (stream >> token) {
+        tokens.push_back(token);
+    }
+    return tokens;
+}
+
+
 std::string replaceCommas(std::string str) {
     std::string result = "";
     for (int i = 0; i < str.length(); i++) {
@@ -32,9 +44,11 @@ std::string replaceCommas(std::string str) {
     return result;
 }
 
-std::string parse_config(fs::path config_path) {
-    std::string api_key;
 
+std::string parse_config() {
+    std::string api_key;
+    
+    fs::path config_path = fs::current_path() / "config.ini";
     std::ifstream config_file(config_path);
     if (config_file.is_open())
     {
@@ -44,48 +58,36 @@ std::string parse_config(fs::path config_path) {
         {
             line.erase(std::remove_if(line.begin(), line.end(), ::isspace), line.end());
 			
-            if (line.find("API_KEY=") == 0)
+            if (line.find("API_KEY") == 0)
             {
                 api_key = line.substr(8);
             }
+
         }
 
         config_file.close();
     }
 
-    return api_key
+    return api_key;
 }
 
 int main(int argc, char* argv[]) {
-    /// request, tags, path, count
-    if (argc != 4) {
-        std::cerr << "Usage: " << argv[0] << " <request> <tags> <save_path> <img_count>";
+    if (argc != 5) {
+        std::cerr << "Usage: " << argv[0] << " <request> <tags> <img_count> <save_path>";
         return 1;
     }
 
-    fs::path config_path = fs::path(argv[0]).parent_path() / "config.ini"
-    std::string request = replaceSpaces(argv[1])
-    std::string tags = replaceCommas(argv[2])
-    fs::path save_path = fs::path(argv[3])
-    int img_count = std::stoi(argv[4])
+    std::string api_key = parse_config();
+    std::string request = replaceSpaces(argv[1]);
+    std::string tags = replaceCommas(argv[2]);
+    int img_count = std::stoi(argv[3]);
+    std::string path = argv[4];
 
-    if (!fs::exists(save_path)) {
-        std::cerr << "Error path '" << save_path << "' doesn't exist" << std::endl;
-        return 1;
-    }
-
-    if (!fs::exists(config_path)) {
-        std::cerr << "Error: Config file not found at " << configPath << std::endl;
-        return 1;
-    }
-
-    std::string api_key = parse_config(config_path);
-
-    FlickrAPI obj = FlickrAPI(api_key, save_path);
+    FlickrAPI obj = FlickrAPI(api_key, path, request, tags);
     std::cout << "Start uploading photos..." << std::endl;
-    obj.uploadPhoto(request, tags, img_count);
+    obj.uploadPhoto(img_count);
     std::cout << "Done!" << std::endl;
-    std::cin >>;
+    std::cin.get();
 
 	return 0;
 }
