@@ -87,7 +87,5 @@ int main(int argc, char* argv[]) {
     std::cout << "Start uploading photos..." << std::endl;
     obj.uploadPhoto(img_count);
     std::cout << "Done!" << std::endl;
-    std::cin.get();
-
-	return 0;
+    return 0;
 }
