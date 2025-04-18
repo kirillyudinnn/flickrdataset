@@ -1,12 +1,10 @@
 #include "FlickrAPI.h"
 
 std::string FlickrAPI::getRequest(int n) {
-
     return this->API_MAIN + this->API_KEY + this->req + this->tag + this->tag_mode + this->license + this->sort + this->content + this->per_page + this->page + std::to_string(n) + this->format + this->callback;
 };
 
 size_t writeData(void* ptr, size_t size, size_t nmemb, FILE* stream) {
-
     return size_t(fwrite(ptr, size, nmemb, stream));
 };
 
@@ -15,6 +13,39 @@ size_t FlickrAPI::responseToString(void* data, size_t size, size_t nmemb, void* 
     return size * nmemb;
 };
 
+bool FlickrAPI::testConnectionToFlickr(){
+    CURLcode response;
+    std::string echo_test_resp;
+
+    /// add ping google.com to check Internet connection...
+
+    CURL* curl = curl_easy_init();
+    if (curl) {
+        std::string test_url = "https://api.flickr.com/services/rest/?method=flickr.test.echo" + this->API_KEY + "&format=json&nojsoncallback=1";
+        
+        curl_easy_setopt(curl, CURLOPT_URL, test_url.c_str());
+        curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, responseToString);
+        curl_easy_setopt(curl, CURLOPT_WRITEDATA, &echo_test_resp);
+        response = curl_easy_perform(curl);
+        curl_easy_cleanup(curl);
+
+        json json_response = json::parse(echo_test_resp);
+        std::string stat = json_response["stat"];
+
+        if (stat == "ok") {
+            return true;
+        }
+        else {
+            std::string message = json_response["message"];
+            std::cerr << message << std::endl;
+            return false;
+        }
+    }
+    else {
+        std::cerr << "Something went wrong... Couldn't initialize curl object" << std::endl;
+        return false;
+    }
+}
 
 void FlickrAPI::processPhoto(int batch_index, int count, int max_json_length) {
     CURL* curl = curl_easy_init();
@@ -51,18 +82,25 @@ void FlickrAPI::processPhoto(int batch_index, int count, int max_json_length) {
 
 
 void FlickrAPI::uploadPhoto(int photo_count) {
-    const int max_json_length = 500;
-    int batch_count = photo_count / max_json_length;
-    int remaining_count = photo_count % max_json_length;
+    bool is_connection_available = testConnectionToFlickr();
 
-    for (int batch_index = 0; batch_index < batch_count; batch_index++) {
-      	processPhoto(batch_index, max_json_length, max_json_length);
-    }
+    if (is_connection_available) {
+        const int max_json_length = 500;
+        int batch_count = photo_count / max_json_length;
+        int remaining_count = photo_count % max_json_length;
 
-    if (remaining_count != 0) {
-        processPhoto(batch_count, remaining_count, max_json_length);
+        for (int batch_index = 0; batch_index < batch_count; batch_index++) {
+            processPhoto(batch_index, max_json_length, max_json_length);
+            }
+
+        if (remaining_count != 0) {
+            processPhoto(batch_count, remaining_count, max_json_length);
+            }
     }
+    
+    else {}
 };
+
 
 std::string FlickrAPI::getJsonRequest(int n) {
     CURL* curl;

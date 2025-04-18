@@ -54,7 +54,7 @@ public:
 	std::string getRequest(int n);
 
 	/*!
-     * \brief Отправляет GET-запрос к flickr.com
+     * \brief Отправляет GET-запрос к flickr.com с методом photos.search 
 	 * \param n Номер батча (номер страницы в запросе)
      * \return Возвращает JSON ответ в виде строки
      */
@@ -76,10 +76,15 @@ public:
      * \brief Метод, внутри которого формируются и отправляются запросы для батча.
 	 * \param batch_index Номер батча
 	 * \param count Количество изображений на странице
-	 * \papram max_json_length Максимальное количество изображений в батче
+	 * \param max_json_length Максимальное количество изображений в батче
      */
     void processPhoto(int batch_index, int count, int max_json_length);
 
+	/*!
+     * \brief Метод для проверки соединения с сервером Flickr.com и валидации API ключа
+	 * \return Возвращает true если установлено соединение, иначе false
+     */
+	bool testConnectionToFlickr();
 
 private:
 	std::string text{}; ///< Текст запроса
@@ -101,5 +106,5 @@ private:
 	const std::string staticflickr = ".staticflickr.com/"; ///< Вспомогательная строка
 	const std::string jpg = ".jpg"; ///< Формат фотографий
 	const std::string tag_mode = "&tags_mode=all"; ///< Строка для указания перебора тегов
-	const std::string sort = "&sort=interestingness-desc"; ///< Строка для указания сортировки ответа по популярности
+	const std::string sort = "&sort=relevance"; ///< Строка для указания сортировки ответа по популярности
 };
