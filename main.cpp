@@ -69,7 +69,6 @@ std::string parseConfig() {
     std::ifstream config_file(config_path);
     if (config_file.is_open())
     {
-
         while (std::getline(config_file, line))
         {
             line.erase(std::remove_if(line.begin(), line.end(), ::isspace), line.end());
@@ -83,6 +82,10 @@ std::string parseConfig() {
         config_file.close();
     }
 
+    if (api_key.empty()){
+        std::cerr << "API_KEY value in the file config.ini is empty... Write a secret key in the config.ini file" << std::endl;
+    }
+
     return api_key;
 }
 
@@ -94,7 +97,6 @@ int main(int argc, char* argv[]) {
 
     std::string api_key = parseConfig();
     if (api_key.empty()) {
-        std::cerr << "API_KEY value in the file config.ini is empty... Write a secret key in the config.ini file" << std::endl;
         return 1;
     }
 

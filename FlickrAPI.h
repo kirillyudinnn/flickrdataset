@@ -82,7 +82,7 @@ public:
 
 	/*!
      * \brief Метод для валидации API ключа на flickr.com
-	 * \return Возвращает true, если API ключ – валидный
+	 * \return Возвращает true, если API ключ валидный
      */
 	bool validateAPIKey();
 
