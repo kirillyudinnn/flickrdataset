@@ -91,7 +91,7 @@ std::string parseConfig() {
 
 int main(int argc, char* argv[]) {
     if (argc != 5) {
-        std::cerr << "Usage: " << argv[0] << " <request> <tags> <img_count> <save_path>";
+        std::cerr << "Usage: " << argv[0] << " <request> <tags> <img_count> <save_path>" << std::endl;
         return 1;
     }
 
@@ -102,7 +102,16 @@ int main(int argc, char* argv[]) {
 
     std::string request = replaceSpaces(argv[1]);
     std::string tags = replaceCommas(argv[2]);
-    int img_count = std::stoi(argv[3]);
+
+    int img_count = 0;
+    try {
+        img_count = std::stoi(argv[3]);
+    }
+    catch (const std::invalid_argument& e) {
+        std::cerr << "Error: Argument '" << argv[3] << "' is not a valid integer\n";
+        return 1;
+    }
+
     std::string path = argv[4];
 
     if (!pathExists(path)){

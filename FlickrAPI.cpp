@@ -85,9 +85,8 @@ bool FlickrAPI::processPhoto(int batch_index, int count, int max_json_length) {
         }
         for (int i = 0; i < count; i++) 
         {
-            int percentage = (i * 100) / count;
-            if (percentage % 20 == 0 && i > 1) {
-                std::cout << percentage << "% (" << i << "/" << count << ") of images from batch uploaded sucessfully" << std::endl;
+            if (i % 100 == 0) {
+                std::cout << "(" << i << "/" << count << ") of images from batch uploaded sucessfully" << std::endl;
             }
             
 
