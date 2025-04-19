@@ -51,20 +51,20 @@ public:
 	 * \param n Номер батча (номер страницы в запросе)
      * \return Возвращает строку для отправки GET-запроса
      */
-	std::string getRequest(int n);
+	std::string buildRequestString(int n_batch);
 
 	/*!
      * \brief Отправляет GET-запрос к flickr.com с методом photos.search 
 	 * \param n Номер батча (номер страницы в запросе)
      * \return Возвращает JSON ответ в виде строки
      */
-	std::string getJsonRequest(int n);
+	std::string getImagesMetadata(int n_batch);
 
 	/*!
      * \brief Формирует адрес для запроса 
      * \param fields Необходимые поля, полученные из JSON-ответа, для формирования URL фотогографии
      */
-	std::string getPhotoURL(std::vector<std::string>& fields);
+	std::string buildImageURL(std::vector<std::string>& fields);
 
 	/*!
      * \brief Метод для выгрузки изображений.
@@ -78,13 +78,19 @@ public:
 	 * \param count Количество изображений на странице
 	 * \param max_json_length Максимальное количество изображений в батче
      */
-    void processPhoto(int batch_index, int count, int max_json_length);
+    bool processPhoto(int batch_index, int count, int max_json_length);
 
 	/*!
-     * \brief Метод для проверки соединения с сервером Flickr.com и валидации API ключа
+     * \brief Метод для валидации API ключа на flickr.com
+	 * \return Возвращает true, если API ключ – валидный
+     */
+	bool validateAPIKey();
+
+	/*!
+     * \brief Метод для проверки соединения с интернетом
 	 * \return Возвращает true если установлено соединение, иначе false
      */
-	bool testConnectionToFlickr();
+	bool checkInternetConnection();
 
 private:
 	std::string text{}; ///< Текст запроса
@@ -105,6 +111,6 @@ private:
 	const std::string farm = "https://farm"; ///< Строка для указания фермы
 	const std::string staticflickr = ".staticflickr.com/"; ///< Вспомогательная строка
 	const std::string jpg = ".jpg"; ///< Формат фотографий
-	const std::string tag_mode = "&tags_mode=all"; ///< Строка для указания перебора тегов
+	const std::string tag_mode = "&tags_mode=any"; ///< Строка для указания перебора тегов
 	const std::string sort = "&sort=relevance"; ///< Строка для указания сортировки ответа по популярности
 };

@@ -19,7 +19,7 @@ std::string replaceSpaces(std::string str) {
     return result;
 }
 
-bool path_exists(const std::string& path) {
+bool pathExists(const std::string& path) {
     try {
         fs::path fs_path(path);
         return fs::exists(fs_path);
@@ -30,7 +30,7 @@ bool path_exists(const std::string& path) {
 }
 
 
-std::vector<std::string> parse_command(const std::string& input) {
+std::vector<std::string> parseCommand(const std::string& input) {
     std::istringstream stream(input);
     std::string token;
     std::vector<std::string> tokens;
@@ -55,7 +55,7 @@ std::string replaceCommas(std::string str) {
 }
 
 
-std::string parse_config() {
+std::string parseConfig() {
     std::string api_key;
     std::string line;
     
@@ -92,7 +92,7 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
-    std::string api_key = parse_config();
+    std::string api_key = parseConfig();
     if (api_key.empty()) {
         std::cerr << "API_KEY value in the file config.ini is empty... Write a secret key in the config.ini file" << std::endl;
         return 1;
@@ -103,13 +103,13 @@ int main(int argc, char* argv[]) {
     int img_count = std::stoi(argv[3]);
     std::string path = argv[4];
 
-    if (!path_exists(path)){
+    if (!pathExists(path)){
         std::cerr << "Folder " << path << " doesn't exist. Create a directory before uploading images..." << std::endl;
         return 1;
     }
 
     FlickrAPI obj = FlickrAPI(api_key, path, request, tags);
-    std::cout << "Start uploading photos ..." << std::endl;
+    ///std::cout << "Start uploading photos ..." << std::endl;
     obj.uploadPhoto(img_count);
     return 0;
 }
